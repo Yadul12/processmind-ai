@@ -1,0 +1,74 @@
+{
+  "case_id": "EDGE-002",
+  "title": "Vendor NDA and Master Agreement Sign-Off (Contradictory Draft)",
+  "document_code": "SOP-LEG-EDGE2",
+  "category": "Edge Case - Contradictory Rules",
+  "base_filename": "edge_02_contradictory_instructions",
+  "primary_format": "txt",
+  "is_edge_case": true,
+  "expected_activities": [
+    {
+      "activity_id": "ACT-901",
+      "activity_name": "Draft Master Services Agreement",
+      "responsible_role": "Commercial Contracts Manager",
+      "department": "Legal",
+      "activity_type": "manual",
+      "section": "Section 1.0 - Conflicting Sign-Off Rules",
+      "dependencies": []
+    },
+    {
+      "activity_id": "ACT-902",
+      "activity_name": "Legal Counsel Final Sign-Off",
+      "responsible_role": "Senior Legal Counsel",
+      "department": "Legal",
+      "activity_type": "approval",
+      "section": "Section 1.0 - Conflicting Sign-Off Rules",
+      "dependencies": [
+        "ACT-901",
+        "ACT-903"
+      ]
+    },
+    {
+      "activity_id": "ACT-903",
+      "activity_name": "Finance Director Commercial Approval",
+      "responsible_role": "Finance Director",
+      "department": "Finance",
+      "activity_type": "approval",
+      "section": "Section 1.0 - Conflicting Sign-Off Rules",
+      "dependencies": [
+        "ACT-902"
+      ]
+    }
+  ],
+  "expected_actors": [
+    "Commercial Contracts Manager",
+    "Finance Director",
+    "Senior Legal Counsel"
+  ],
+  "expected_dependencies": [
+    {
+      "source": "ACT-901",
+      "target": "ACT-902"
+    },
+    {
+      "source": "ACT-903",
+      "target": "ACT-902"
+    },
+    {
+      "source": "ACT-902",
+      "target": "ACT-903"
+    }
+  ],
+  "expected_conditions": [],
+  "expected_approvals": [
+    {
+      "approval_id": "APR-901",
+      "activity_id": "ACT-902"
+    },
+    {
+      "approval_id": "APR-902",
+      "activity_id": "ACT-903"
+    }
+  ],
+  "expected_exceptions": []
+}

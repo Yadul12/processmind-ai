@@ -1,0 +1,98 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 2543 >>
+stream
+BT
+/F1 10 Tf
+45 750 Td
+13 TL
+(=== Section 1.0 - Purpose and Scope ===) Tj T*
+(DOCUMENT CODE: SOP-FIN-001 | DEPARTMENT: Finance & Accounts Payable) Tj T*
+(TITLE: Enterprise Accounts Payable Invoice Processing SOP) Tj T*
+(OWNER: VP of Finance Operations | EFFECTIVE DATE: 2026-01-15) Tj T*
+(1.0 Purpose: Standardize receipt, OCR extraction, 3-way PO matching, approval routing, and ERP payment posting for vendor invoices.) Tj T*
+() Tj T*
+(=== Section 2.0 - Process Activities and Execution Rules ===) Tj T*
+(Step 1 [ACT-001] Receive and Digitize Vendor Invoice | Role: AP Intake Specialist \(Finance & Accounts Payable\) | Type: manual) Tj T*
+(Description: Receive vendor PDF or paper invoice via AP portal and register invoice batch metadata.) Tj T*
+(Input: Raw Vendor Invoice, Delivery Receipt | Output: Registered Invoice Record) Tj T*
+(Preconditions: Vendor is active in Master Vendor Registry | Postconditions: Invoice assigned unique tracking ID) Tj T*
+(Dependencies: None) Tj T*
+() Tj T*
+(Step 2 [ACT-002] Execute Automated OCR and Three-Way PO Match | Role: ERP Matching Engine \(Finance Systems\) | Type: automated) Tj T*
+(Description: Extract line items via OCR and perform automated 3-way match against Purchase Order and Goods Receipt Note within 2% tolerance.) Tj T*
+(Input: Registered Invoice Record, Purchase Order, Goods Receipt Note | Output: Three-Way Match Report) Tj T*
+(Preconditions: Invoice tracking ID exists and PO reference is present | Postconditions: Match variance percentage calculated) Tj T*
+(Dependencies: ACT-001) Tj T*
+() Tj T*
+(Step 3 [ACT-003] Evaluate Match Discrepancy and Variance Threshold | Role: AP Senior Analyst \(Finance & Accounts Payable\) | Type: decision) Tj T*
+(Description: Decision gate evaluating if 3-way match variance is within 2% tolerance and whether invoice amount exceeds $10,000 approval threshold.) Tj T*
+(Input: Three-Way Match Report | Output: Routing Decision Signal) Tj T*
+(Preconditions: Three-Way Match Report generated | Postconditions: Invoice routed to approval gate, auto-posting, or discrepancy escalation) Tj T*
+(Dependencies: ACT-002) Tj T*
+(DECISION RULE [COND-001]: IF match_variance <= 2% AND invoice_amount >= $10,000 THEN route to ACT-004 ELSE IF match_variance <= 2% AND invoice_amount < $10,000 THEN route to ACT-005.) Tj T*
+(EXCEPTION RULE [EXC-001]: IF match_variance > 2% OR missing Goods Receipt Note THEN escalate to Procurement Dispute Specialist within 24 hours \(Target: ACT-006\). Remediation: Issue Vendor Debit Memo or PO Amendment.) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 1936 >>
+stream
+BT
+/F1 10 Tf
+45 750 Td
+13 TL
+(=== Section 3.0 - Approvals, Exception Handling, and Settlement ===) Tj T*
+(Step 4 [ACT-004] Approve High-Value Invoice Settlement | Role: Finance Controller \(Executive Finance\) | Type: approval) Tj T*
+(Description: Review supporting audit package and approve invoices valued at $10,000 or above.) Tj T*
+(Input: Routing Decision Signal, Three-Way Match Report | Output: Signed Payment Authorization) Tj T*
+(Preconditions: Invoice amount >= $10,000 and 3-way match verified | Postconditions: Payment authorization token recorded in ERP) Tj T*
+(Dependencies: ACT-003) Tj T*
+(APPROVAL GATE [APR-001]: Approver: Finance Controller | Criteria: Budget availability and valid 3-way match for invoices >= $10,000 | SLA: 16 hours | Rejection Target: ACT-006.) Tj T*
+() Tj T*
+(Step 5 [ACT-005] Post General Ledger Entry and Schedule ACH Payment | Role: ERP Treasury Scheduler \(Finance Systems\) | Type: automated) Tj T*
+(Description: Post balanced liability journal to General Ledger and schedule Net-30 ACH payment run.) Tj T*
+(Input: Signed Payment Authorization, Registered Invoice Record | Output: GL Journal Voucher, ACH Payment Instruction) Tj T*
+(Preconditions: Either Finance Controller approval obtained or auto-approved \(< $10,000\) | Postconditions: Payment scheduled and vendor notified) Tj T*
+(Dependencies: ACT-003, ACT-004) Tj T*
+() Tj T*
+(Step 6 [ACT-006] Resolve PO Discrepancy with Vendor and Procurement | Role: Procurement Dispute Specialist \(Procurement\) | Type: escalation) Tj T*
+(Description: Investigate quantity or price variance > 2% with buyer and supplier, issuing credit note request or invoice rejection.) Tj T*
+(Input: Three-Way Match Report, Discrepancy Alert | Output: Discrepancy Resolution Memo) Tj T*
+(Preconditions: Match variance > 2% or controller rejection | Postconditions: Invoice placed on hold or credit memo received) Tj T*
+(Dependencies: ACT-003) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000191 00000 n 
+0000002786 00000 n 
+0000002912 00000 n 
+0000004900 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+5026
+%%EOF

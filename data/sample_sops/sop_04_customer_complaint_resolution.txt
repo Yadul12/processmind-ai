@@ -1,0 +1,46 @@
+=== Section 1.0 - Service Level Objectives (Page 1) ===
+DOCUMENT CODE: SOP-CX-004 | DEPARTMENT: Customer Experience & Quality Assurance
+TITLE: Tiered Customer Complaint Resolution and SLA Escalation SOP
+OWNER: VP of Customer Success | EFFECTIVE DATE: 2026-02-10
+1.0 Objective: Ensure structured intake, severity triage, root-cause investigation, goodwill credit approval, and regulatory escalation for enterprise customer complaints.
+
+=== Section 2.0 - Intake, Triage, and Investigation (Page 1) ===
+Step 1 [ACT-301] Log Customer Complaint and Acknowledge Receipt | Role: Customer Support Specialist (Customer Experience) | Type: manual
+Description: Record customer complaint in Salesforce Service Cloud, attach evidence logs, and send automated 15-minute SLA acknowledgement.
+Input: Customer Complaint Submission, Account Telemetry Logs | Output: Logged Case Ticket
+Preconditions: Customer holds active service agreement | Postconditions: Case ID created and SLA timer started
+Dependencies: None
+
+Step 2 [ACT-302] Triage Complaint Severity and Regulatory Impact | Role: Quality Assurance Team Lead (Quality Assurance) | Type: decision
+Description: Classify complaint into Severity-1 (Regulatory/Data Privacy Breach), Severity-2 (Service Outage with SLA Credit), or Severity-3 (Standard Defect).
+Input: Logged Case Ticket | Output: Severity Triage Classification
+Preconditions: Case ticket logged with initial facts | Postconditions: Severity tier assigned
+Dependencies: ACT-301
+DECISION RULE [COND-301]: IF credit_requested >= $1,000 THEN route to ACT-304 ELSE route to ACT-303.
+EXCEPTION RULE [EXC-301]: IF complaint involves GDPR/HIPAA privacy breach OR regulatory threat THEN escalate to Data Privacy & Legal Response Team within 2 hours (Target: ACT-306). Remediation: Freeze affected tenant logs and initiate statutory incident response.
+
+Step 3 [ACT-303] Execute Technical Root Cause Analysis and Service Remediation | Role: L3 Incident Resolution Engineer (Engineering Operations) | Type: manual
+Description: Reproduce reported issue, deploy configuration hotfix or data correction, and document 5-Whys Root Cause Analysis.
+Input: Severity Triage Classification, Account Telemetry Logs | Output: Root Cause & Remediation Report
+Preconditions: Complaint triaged as technical/operational issue | Postconditions: Technical fix verified in customer environment
+Dependencies: ACT-302
+
+=== Section 3.0 - Financial Credit Approval and Closure (Page 2) ===
+Step 4 [ACT-304] Approve Customer SLA Service Credit or Refund | Role: Director of Customer Operations (Customer Experience) | Type: approval
+Description: Review SLA downtime calculation and approve billing credit or refund >= $1,000.
+Input: Root Cause & Remediation Report, SLA Credit Calculation | Output: Approved Credit Authorization
+Preconditions: Customer claim >= $1,000 validated against contract SLA | Postconditions: Credit memo authorized for billing
+Dependencies: ACT-302, ACT-303
+APPROVAL GATE [APR-301]: Approver: Director of Customer Operations | Criteria: Verified SLA breach duration and contract penalty clause for credits >= $1,000 | SLA: 8 hours | Rejection Target: ACT-305.
+
+Step 5 [ACT-305] Dispatch Final Resolution Report and Close Case | Role: Customer Success Manager (Customer Experience) | Type: notification
+Description: Deliver formal RCA summary and credit confirmation to customer executive sponsor and mark ticket RESOLVED.
+Input: Root Cause & Remediation Report, Approved Credit Authorization | Output: Customer Resolution Closure Notice
+Preconditions: Technical remediation complete and credit decision finalized | Postconditions: Case closed and CSAT survey triggered
+Dependencies: ACT-303, ACT-304
+
+Step 6 [ACT-306] Manage Regulatory Compliance and Privacy Breach Escalation | Role: Data Privacy & Legal Response Team (Legal & Compliance) | Type: escalation
+Description: Conduct forensic privacy assessment, draft regulatory notification if required, and coordinate legal communication.
+Input: Logged Case Ticket, Severity Triage Classification | Output: Regulatory Incident Disposition
+Preconditions: Severity-1 regulatory or privacy trigger identified | Postconditions: Legal hold and regulatory compliance protocol executed
+Dependencies: ACT-302

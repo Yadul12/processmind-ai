@@ -1,0 +1,134 @@
+{
+  "case_id": "EDGE-003",
+  "title": "Global Treasury Multi-Tier Wire Transfer & FX Hedging SOP",
+  "document_code": "SOP-TRS-EDGE3",
+  "category": "Edge Case - Multi-Branch Workflow",
+  "base_filename": "edge_03_complex_multibranch",
+  "primary_format": "txt",
+  "is_edge_case": true,
+  "expected_activities": [
+    {
+      "activity_id": "ACT-701",
+      "activity_name": "Initiate International Wire Request",
+      "responsible_role": "Treasury Analyst",
+      "department": "Global Treasury",
+      "activity_type": "manual",
+      "section": "Section 1.0 - Multi-Branch Treasury Execution",
+      "dependencies": []
+    },
+    {
+      "activity_id": "ACT-702",
+      "activity_name": "Evaluate Currency Exposure and FX Hedge Requirement",
+      "responsible_role": "FX Desk Manager",
+      "department": "Global Treasury",
+      "activity_type": "decision",
+      "section": "Section 1.0 - Multi-Branch Treasury Execution",
+      "dependencies": [
+        "ACT-701"
+      ]
+    },
+    {
+      "activity_id": "ACT-703",
+      "activity_name": "Execute Spot or Forward FX Conversion",
+      "responsible_role": "FX Trading Desk Bot",
+      "department": "Treasury Systems",
+      "activity_type": "automated",
+      "section": "Section 1.0 - Multi-Branch Treasury Execution",
+      "dependencies": [
+        "ACT-702"
+      ]
+    },
+    {
+      "activity_id": "ACT-704",
+      "activity_name": "Evaluate Wire Notional Tier for Dual Treasury Sign-Off",
+      "responsible_role": "Treasury Operations Lead",
+      "department": "Global Treasury",
+      "activity_type": "decision",
+      "section": "Section 1.0 - Multi-Branch Treasury Execution",
+      "dependencies": [
+        "ACT-702",
+        "ACT-703"
+      ]
+    },
+    {
+      "activity_id": "ACT-705",
+      "activity_name": "Approve High-Value Institutional Wire Release",
+      "responsible_role": "Chief Financial Officer",
+      "department": "Executive Finance",
+      "activity_type": "approval",
+      "section": "Section 1.0 - Multi-Branch Treasury Execution",
+      "dependencies": [
+        "ACT-704"
+      ]
+    },
+    {
+      "activity_id": "ACT-706",
+      "activity_name": "Transmit SWIFT MT103 Payment and Reconcile Nostro Account",
+      "responsible_role": "SWIFT Gateway Service",
+      "department": "Treasury Systems",
+      "activity_type": "automated",
+      "section": "Section 1.0 - Multi-Branch Treasury Execution",
+      "dependencies": [
+        "ACT-704",
+        "ACT-705"
+      ]
+    }
+  ],
+  "expected_actors": [
+    "Chief Financial Officer",
+    "FX Desk Manager",
+    "FX Trading Desk Bot",
+    "SWIFT Gateway Service",
+    "Treasury Analyst",
+    "Treasury Operations Lead"
+  ],
+  "expected_dependencies": [
+    {
+      "source": "ACT-701",
+      "target": "ACT-702"
+    },
+    {
+      "source": "ACT-702",
+      "target": "ACT-703"
+    },
+    {
+      "source": "ACT-702",
+      "target": "ACT-704"
+    },
+    {
+      "source": "ACT-703",
+      "target": "ACT-704"
+    },
+    {
+      "source": "ACT-704",
+      "target": "ACT-705"
+    },
+    {
+      "source": "ACT-704",
+      "target": "ACT-706"
+    },
+    {
+      "source": "ACT-705",
+      "target": "ACT-706"
+    }
+  ],
+  "expected_conditions": [
+    {
+      "condition_id": "COND-701",
+      "decision_activity_id": "ACT-702",
+      "rule_expression": "IF currency != 'USD' THEN route to ACT-703 ELSE route to ACT-704."
+    },
+    {
+      "condition_id": "COND-702",
+      "decision_activity_id": "ACT-704",
+      "rule_expression": "IF notional_usd >= $250,000 THEN route to ACT-705 ELSE route to ACT-706."
+    }
+  ],
+  "expected_approvals": [
+    {
+      "approval_id": "APR-701",
+      "activity_id": "ACT-705"
+    }
+  ],
+  "expected_exceptions": []
+}

@@ -1,0 +1,134 @@
+{
+  "case_id": "SOP-004",
+  "title": "Tiered Customer Complaint Resolution and SLA Escalation SOP",
+  "document_code": "SOP-CX-004",
+  "category": "Customer Complaint Resolution",
+  "base_filename": "sop_04_customer_complaint_resolution",
+  "primary_format": "pdf",
+  "is_edge_case": false,
+  "expected_activities": [
+    {
+      "activity_id": "ACT-301",
+      "activity_name": "Log Customer Complaint and Acknowledge Receipt",
+      "responsible_role": "Customer Support Specialist",
+      "department": "Customer Experience",
+      "activity_type": "manual",
+      "section": "Section 2.0 - Intake, Triage, and Investigation",
+      "dependencies": []
+    },
+    {
+      "activity_id": "ACT-302",
+      "activity_name": "Triage Complaint Severity and Regulatory Impact",
+      "responsible_role": "Quality Assurance Team Lead",
+      "department": "Quality Assurance",
+      "activity_type": "decision",
+      "section": "Section 2.0 - Intake, Triage, and Investigation",
+      "dependencies": [
+        "ACT-301"
+      ]
+    },
+    {
+      "activity_id": "ACT-303",
+      "activity_name": "Execute Technical Root Cause Analysis and Service Remediation",
+      "responsible_role": "L3 Incident Resolution Engineer",
+      "department": "Engineering Operations",
+      "activity_type": "manual",
+      "section": "Section 2.0 - Intake, Triage, and Investigation",
+      "dependencies": [
+        "ACT-302"
+      ]
+    },
+    {
+      "activity_id": "ACT-304",
+      "activity_name": "Approve Customer SLA Service Credit or Refund",
+      "responsible_role": "Director of Customer Operations",
+      "department": "Customer Experience",
+      "activity_type": "approval",
+      "section": "Section 3.0 - Financial Credit Approval and Closure",
+      "dependencies": [
+        "ACT-302",
+        "ACT-303"
+      ]
+    },
+    {
+      "activity_id": "ACT-305",
+      "activity_name": "Dispatch Final Resolution Report and Close Case",
+      "responsible_role": "Customer Success Manager",
+      "department": "Customer Experience",
+      "activity_type": "notification",
+      "section": "Section 3.0 - Financial Credit Approval and Closure",
+      "dependencies": [
+        "ACT-303",
+        "ACT-304"
+      ]
+    },
+    {
+      "activity_id": "ACT-306",
+      "activity_name": "Manage Regulatory Compliance and Privacy Breach Escalation",
+      "responsible_role": "Data Privacy & Legal Response Team",
+      "department": "Legal & Compliance",
+      "activity_type": "escalation",
+      "section": "Section 3.0 - Financial Credit Approval and Closure",
+      "dependencies": [
+        "ACT-302"
+      ]
+    }
+  ],
+  "expected_actors": [
+    "Customer Success Manager",
+    "Customer Support Specialist",
+    "Data Privacy & Legal Response Team",
+    "Director of Customer Operations",
+    "L3 Incident Resolution Engineer",
+    "Quality Assurance Team Lead"
+  ],
+  "expected_dependencies": [
+    {
+      "source": "ACT-301",
+      "target": "ACT-302"
+    },
+    {
+      "source": "ACT-302",
+      "target": "ACT-303"
+    },
+    {
+      "source": "ACT-302",
+      "target": "ACT-304"
+    },
+    {
+      "source": "ACT-303",
+      "target": "ACT-304"
+    },
+    {
+      "source": "ACT-303",
+      "target": "ACT-305"
+    },
+    {
+      "source": "ACT-304",
+      "target": "ACT-305"
+    },
+    {
+      "source": "ACT-302",
+      "target": "ACT-306"
+    }
+  ],
+  "expected_conditions": [
+    {
+      "condition_id": "COND-301",
+      "decision_activity_id": "ACT-302",
+      "rule_expression": "IF credit_requested >= $1,000 THEN route to ACT-304 ELSE route to ACT-303."
+    }
+  ],
+  "expected_approvals": [
+    {
+      "approval_id": "APR-301",
+      "activity_id": "ACT-304"
+    }
+  ],
+  "expected_exceptions": [
+    {
+      "exception_id": "EXC-301",
+      "source_activity_id": "ACT-302"
+    }
+  ]
+}

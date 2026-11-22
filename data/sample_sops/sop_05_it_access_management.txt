@@ -1,0 +1,46 @@
+=== Section 1.0 - Zero-Trust Access Policy (Page 1) ===
+DOCUMENT CODE: SOP-SEC-005 | DEPARTMENT: Cybersecurity & Identity Governance
+TITLE: Zero-Trust IT Privileged Access Management (PAM) SOP
+OWNER: Chief Information Security Officer (CISO) | EFFECTIVE DATE: 2026-02-15
+1.0 Policy: Enforces just-in-time (JIT) privileged access requests, least-privilege risk evaluation, dual approval for production databases, and automated time-bound revocation.
+
+=== Section 2.0 - Request Intake and Risk Evaluation (Page 1) ===
+Step 1 [ACT-401] Submit Just-In-Time Privileged Access Request | Role: Cloud Platform Engineer (Engineering) | Type: manual
+Description: Submit JIT access ticket in CyberArk PAM specifying target production resource, business ticket ID, and requested duration (max 8 hours).
+Input: Incident or Change Ticket ID, Target Resource ARN | Output: PAM Access Request Record
+Preconditions: Requester holds valid MFA hardware token and active security certification | Postconditions: PAM request queued for automated policy evaluation
+Dependencies: None
+
+Step 2 [ACT-402] Evaluate Entitlement Risk and Environment Classification | Role: IAM Policy Decision Engine (Cybersecurity Systems) | Type: decision
+Description: Calculate entitlement risk score and verify whether target system is a Tier-0 Production Database containing PII/PCI data.
+Input: PAM Access Request Record, Asset Sensitivity Catalog | Output: Entitlement Risk Decision
+Preconditions: PAM request contains valid change ticket | Postconditions: Routed to Data Owner approval or direct JIT token issuance
+Dependencies: ACT-401
+DECISION RULE [COND-401]: IF target_tier == 'Tier0_Production_PII' OR duration_hours > 4 THEN route to ACT-403 ELSE route to ACT-404.
+EXCEPTION RULE [EXC-401]: IF request originates from unmanaged endpoint OR triggers SoD (Segregation of Duties) conflict THEN escalate to SOC Incident Commander within 1 hour (Target: ACT-406). Remediation: Deny request immediately and lock session for SOC review.
+
+=== Section 3.0 - Dual Approval, JIT Provisioning, and Revocation (Page 2) ===
+Step 3 [ACT-403] Approve Tier-0 Production Database Privileged Access | Role: Production Data Owner & Security Lead (Cybersecurity & Governance) | Type: approval
+Description: Review change window justification and grant dual-custody approval for Tier-0 PII/PCI production access.
+Input: Entitlement Risk Decision, PAM Access Request Record | Output: Dual-Custody Access Grant
+Preconditions: Target asset is Tier-0 Production PII or duration > 4 hours | Postconditions: Cryptographic approval token signed
+Dependencies: ACT-402
+APPROVAL GATE [APR-401]: Approver: Production Data Owner & Security Lead | Criteria: Verified P1/P2 change window and zero SoD conflict for Tier-0 Production access | SLA: 2 hours | Rejection Target: ACT-406.
+
+Step 4 [ACT-404] Issue Ephemeral Short-Lived Credentials and Record Session | Role: CyberArk JIT Vault Service (Cybersecurity Systems) | Type: automated
+Description: Mint ephemeral 4-hour IAM role session with full keystroke and query audit recording enabled.
+Input: Dual-Custody Access Grant, PAM Access Request Record | Output: Ephemeral Session Token, Session Audit Stream
+Preconditions: Risk check passed and required approval granted | Postconditions: Engineer granted time-bound session
+Dependencies: ACT-402, ACT-403
+
+Step 5 [ACT-405] Execute Automated TTL Lease Expiry and Access Revocation | Role: IAM Lease Revocation Daemon (Cybersecurity Systems) | Type: automated
+Description: Automatically revoke ephemeral credentials upon TTL expiration, rotate vault secrets, and dispatch audit log digest.
+Input: Ephemeral Session Token, Session Audit Stream | Output: Revocation Confirmation & Audit Digest
+Preconditions: Session TTL expired or change ticket closed | Postconditions: Zero standing privileges confirmed
+Dependencies: ACT-404
+
+Step 6 [ACT-406] Investigate Segregation of Duties Breach or Unauthorized Request | Role: SOC Incident Commander (Security Operations Center) | Type: escalation
+Description: Investigate policy violation or unmanaged device attempt and file security incident report.
+Input: PAM Access Request Record, Entitlement Risk Decision | Output: SOC Security Incident Report
+Preconditions: SoD violation, unmanaged device, or rejected Tier-0 request | Postconditions: User account audited and incident logged
+Dependencies: ACT-402

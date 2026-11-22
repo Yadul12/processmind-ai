@@ -1,0 +1,129 @@
+{
+  "case_id": "SOP-002",
+  "title": "Global Employee Onboarding and Identity Provisioning SOP",
+  "document_code": "SOP-HR-002",
+  "category": "Employee Onboarding",
+  "base_filename": "sop_02_employee_onboarding",
+  "primary_format": "docx",
+  "is_edge_case": false,
+  "expected_activities": [
+    {
+      "activity_id": "ACT-101",
+      "activity_name": "Verify Signed Offer and Background Check Clearance",
+      "responsible_role": "HR Onboarding Coordinator",
+      "department": "Human Resources",
+      "activity_type": "manual",
+      "section": "Section 2.0 - Pre-Boarding and Identity Setup",
+      "dependencies": []
+    },
+    {
+      "activity_id": "ACT-102",
+      "activity_name": "Create Master Employee Profile in Workday HRIS",
+      "responsible_role": "HRIS Automation Bot",
+      "department": "People Systems",
+      "activity_type": "automated",
+      "section": "Section 2.0 - Pre-Boarding and Identity Setup",
+      "dependencies": [
+        "ACT-101"
+      ]
+    },
+    {
+      "activity_id": "ACT-103",
+      "activity_name": "Evaluate Role Security Tier and Production Access Need",
+      "responsible_role": "IT Security Analyst",
+      "department": "Information Security",
+      "activity_type": "decision",
+      "section": "Section 2.0 - Pre-Boarding and Identity Setup",
+      "dependencies": [
+        "ACT-102"
+      ]
+    },
+    {
+      "activity_id": "ACT-104",
+      "activity_name": "Approve Privileged Engineering Workstation and Cloud Roles",
+      "responsible_role": "CISO Delegate",
+      "department": "Information Security",
+      "activity_type": "approval",
+      "section": "Section 3.0 - Approvals, IT Provisioning, and Escalation",
+      "dependencies": [
+        "ACT-103"
+      ]
+    },
+    {
+      "activity_id": "ACT-105",
+      "activity_name": "Provision SSO Identity, Hardware Asset, and Welcome Notification",
+      "responsible_role": "IT Endpoint Provisioning Service",
+      "department": "IT Operations",
+      "activity_type": "notification",
+      "section": "Section 3.0 - Approvals, IT Provisioning, and Escalation",
+      "dependencies": [
+        "ACT-103",
+        "ACT-104"
+      ]
+    },
+    {
+      "activity_id": "ACT-106",
+      "activity_name": "Conduct Adverse Background Finding Legal Review",
+      "responsible_role": "Employee Relations Legal Counsel",
+      "department": "Legal & Compliance",
+      "activity_type": "escalation",
+      "section": "Section 3.0 - Approvals, IT Provisioning, and Escalation",
+      "dependencies": [
+        "ACT-101"
+      ]
+    }
+  ],
+  "expected_actors": [
+    "CISO Delegate",
+    "Employee Relations Legal Counsel",
+    "HR Onboarding Coordinator",
+    "HRIS Automation Bot",
+    "IT Endpoint Provisioning Service",
+    "IT Security Analyst"
+  ],
+  "expected_dependencies": [
+    {
+      "source": "ACT-101",
+      "target": "ACT-102"
+    },
+    {
+      "source": "ACT-102",
+      "target": "ACT-103"
+    },
+    {
+      "source": "ACT-103",
+      "target": "ACT-104"
+    },
+    {
+      "source": "ACT-103",
+      "target": "ACT-105"
+    },
+    {
+      "source": "ACT-104",
+      "target": "ACT-105"
+    },
+    {
+      "source": "ACT-101",
+      "target": "ACT-106"
+    }
+  ],
+  "expected_conditions": [
+    {
+      "condition_id": "COND-101",
+      "decision_activity_id": "ACT-103",
+      "rule_expression": "IF role_security_tier == 'Privileged_Engineering' THEN route to ACT-104 ELSE route to ACT-105."
+    }
+  ],
+  "expected_approvals": [
+    {
+      "approval_id": "APR-101",
+      "activity_id": "ACT-104"
+    }
+  ],
+  "expected_exceptions": [
+    {
+      "exception_id": "EXC-101",
+      "source_activity_id": "ACT-101"
+    }
+  ]
+}

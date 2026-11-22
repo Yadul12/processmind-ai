@@ -1,0 +1,46 @@
+=== Section 1.0 - Policy Overview (Page 1) ===
+DOCUMENT CODE: SOP-HR-002 | DEPARTMENT: Human Resources & People Operations
+TITLE: Global Employee Onboarding and Identity Provisioning SOP
+OWNER: Director of People Operations | EFFECTIVE DATE: 2026-02-01
+1.0 Overview: Governs end-to-end pre-boarding verification, HRIS record creation, IT equipment & SSO provisioning, and mandatory security compliance.
+
+=== Section 2.0 - Pre-Boarding and Identity Setup (Page 1) ===
+Step 1 [ACT-101] Verify Signed Offer and Background Check Clearance | Role: HR Onboarding Coordinator (Human Resources) | Type: manual
+Description: Validate countersigned employment contract, I-9/right-to-work documents, and background screening clearance report.
+Input: Signed Offer Letter, Background Screening Report | Output: Verified Pre-Boarding Dossier
+Preconditions: Candidate accepted offer in ATS | Postconditions: Background check marked PASSED
+Dependencies: None
+EXCEPTION RULE [EXC-101]: IF background check reveals unverified employment or adverse criminal finding THEN escalate to Employee Relations Legal Counsel within 8 hours (Target: ACT-106). Remediation: Hold start date and initiate adverse action review.
+
+Step 2 [ACT-102] Create Master Employee Profile in Workday HRIS | Role: HRIS Automation Bot (People Systems) | Type: automated
+Description: Generate canonical Employee ID, cost-center assignment, and organizational reporting hierarchy in Workday.
+Input: Verified Pre-Boarding Dossier | Output: Active HRIS Employee Record
+Preconditions: Background check clearance verified | Postconditions: Employee ID broadcast to IAM provisioning queue
+Dependencies: ACT-101
+
+Step 3 [ACT-103] Evaluate Role Security Tier and Production Access Need | Role: IT Security Analyst (Information Security) | Type: decision
+Description: Determine if new hire requires Tier-1 Privileged Engineering access or Standard Corporate role access.
+Input: Active HRIS Employee Record, Job Role Matrix | Output: Access Tier Classification
+Preconditions: HRIS Employee Record active | Postconditions: Access tier selected for provisioning
+Dependencies: ACT-102
+DECISION RULE [COND-101]: IF role_security_tier == 'Privileged_Engineering' THEN route to ACT-104 ELSE route to ACT-105.
+
+=== Section 3.0 - Approvals, IT Provisioning, and Escalation (Page 2) ===
+Step 4 [ACT-104] Approve Privileged Engineering Workstation and Cloud Roles | Role: CISO Delegate (Information Security) | Type: approval
+Description: Approve elevated developer laptop profile, SSH bastion keys, and cloud staging access.
+Input: Access Tier Classification | Output: Signed Security Clearance Approval
+Preconditions: Hire assigned to Privileged_Engineering tier | Postconditions: Elevated IAM grant authorized
+Dependencies: ACT-103
+APPROVAL GATE [APR-101]: Approver: CISO Delegate | Criteria: Verified security training pledge and engineering manager justification | SLA: 12 hours | Rejection Target: ACT-105.
+
+Step 5 [ACT-105] Provision SSO Identity, Hardware Asset, and Welcome Notification | Role: IT Endpoint Provisioning Service (IT Operations) | Type: notification
+Description: Provision Okta SSO account, MDM-enrolled laptop shipment, and send Day-1 onboarding schedule notification to hiring manager and employee.
+Input: Active HRIS Employee Record, Access Tier Classification | Output: Provisioned SSO Credentials, Onboarding Welcome Package
+Preconditions: HRIS record active and security tier evaluated | Postconditions: Employee ready for Day-1 orientation
+Dependencies: ACT-103, ACT-104
+
+Step 6 [ACT-106] Conduct Adverse Background Finding Legal Review | Role: Employee Relations Legal Counsel (Legal & Compliance) | Type: escalation
+Description: Review background check discrepancy with candidate and issue compliance determination.
+Input: Background Screening Report | Output: Legal Eligibility Determination
+Preconditions: Background screening flag triggered | Postconditions: Offer rescinded or exception waiver granted
+Dependencies: ACT-101

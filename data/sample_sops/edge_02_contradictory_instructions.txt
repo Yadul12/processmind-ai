@@ -1,0 +1,24 @@
+=== Section 1.0 - Conflicting Sign-Off Rules (Page 1) ===
+DOCUMENT CODE: SOP-LEG-EDGE2 | DEPARTMENT: Legal & Finance
+TITLE: Vendor NDA and Master Agreement Sign-Off (Contradictory Draft)
+OWNER: General Counsel | EFFECTIVE DATE: 2026-03-05
+
+Step 1 [ACT-901] Draft Master Services Agreement | Role: Commercial Contracts Manager (Legal) | Type: manual
+Description: Prepare initial MSA draft from enterprise template.
+Input: Deal Term Sheet | Output: Draft MSA Document
+Preconditions: Deal term sheet received | Postconditions: MSA ready for review
+Dependencies: None
+
+Step 2 [ACT-902] Legal Counsel Final Sign-Off | Role: Senior Legal Counsel (Legal) | Type: approval
+Description: MANDATORY RULE: Legal Counsel must never sign off until Finance Director approval (ACT-903) is 100% completed first.
+Input: Draft MSA Document | Output: Legal Sign-Off Stamp
+Preconditions: Finance Director approval ACT-903 must be completed prior to Legal sign-off | Postconditions: Legal stamp applied
+Dependencies: ACT-901, ACT-903
+APPROVAL GATE [APR-901]: Approver: Senior Legal Counsel | Criteria: Requires prior Finance Director sign-off ACT-903 | SLA: 24 hours | Rejection Target: ACT-901.
+
+Step 3 [ACT-903] Finance Director Commercial Approval | Role: Finance Director (Finance) | Type: approval
+Description: CONTRADICTORY RULE: Finance Director must strictly wait until Legal Counsel Final Sign-Off (ACT-902) is completed before reviewing.
+Input: Legal Sign-Off Stamp | Output: Finance Approval Stamp
+Preconditions: Legal Counsel sign-off ACT-902 must be completed before Finance review | Postconditions: Finance stamp applied
+Dependencies: ACT-902
+APPROVAL GATE [APR-902]: Approver: Finance Director | Criteria: Requires prior Legal Counsel sign-off ACT-902 | SLA: 24 hours | Rejection Target: ACT-901.

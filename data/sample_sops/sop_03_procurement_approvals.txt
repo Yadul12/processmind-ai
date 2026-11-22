@@ -1,0 +1,46 @@
+=== Section 1.0 - Governance & Thresholds (Page 1) ===
+DOCUMENT CODE: SOP-PROC-003 | DEPARTMENT: Global Strategic Sourcing & Procurement
+TITLE: Strategic Procurement Requisition and Vendor Approval SOP
+OWNER: Chief Procurement Officer | EFFECTIVE DATE: 2026-01-20
+1.0 Scope: Defines purchase requisition intake, vendor risk compliance, budget threshold routing, and Purchase Order issuance.
+
+=== Section 2.0 - Requisition Workflow Steps (Page 1) ===
+Step 1 [ACT-201] Submit Purchase Requisition and Statement of Work | Role: Department Cost-Center Manager (Business Operations) | Type: manual
+Description: Draft purchase requisition specifying technical scope, estimated contract value, and vendor quotes.
+Input: Project Scope Document, Vendor Quotation | Output: Draft Purchase Requisition
+Preconditions: Annual department budget allocated | Postconditions: Requisition submitted in Coupa Procurement
+Dependencies: None
+
+Step 2 [ACT-202] Perform Vendor Cyber Risk and Sanctions Screening | Role: Third-Party Risk Analyst (Risk & Compliance) | Type: manual
+Description: Verify vendor SOC2 attestation, OFAC sanctions status, and GDPR data processing addendum.
+Input: Draft Purchase Requisition, Vendor Compliance Packet | Output: Vendor Risk Assessment Score
+Preconditions: Requisition submitted with vendor details | Postconditions: Risk score classified as Low, Medium, or Critical
+Dependencies: ACT-201
+EXCEPTION RULE [EXC-201]: IF vendor fails OFAC sanctions check OR lacks mandatory SOC2 certification THEN escalate to Chief Compliance Officer within 4 hours (Target: ACT-206). Remediation: Block vendor onboarding and require alternative supplier.
+
+Step 3 [ACT-203] Evaluate Requisition Contract Value and Competitive Bidding | Role: Strategic Sourcing Lead (Procurement) | Type: decision
+Description: Evaluate whether total contract value exceeds $50,000 executive threshold or qualifies for standard PO issuance.
+Input: Draft Purchase Requisition, Vendor Risk Assessment Score | Output: Procurement Tier Decision
+Preconditions: Vendor passed risk screening | Postconditions: Routed to Procurement Committee approval or direct PO generation
+Dependencies: ACT-202
+DECISION RULE [COND-201]: IF total_contract_value >= $50,000 THEN route to ACT-204 ELSE route to ACT-205.
+
+=== Section 3.0 - Executive Approval & Purchase Order Dispatch (Page 2) ===
+Step 4 [ACT-204] Approve High-Value Strategic Procurement Contract | Role: VP of Finance & Procurement Committee (Executive Finance) | Type: approval
+Description: Review competitive RFP scoring matrix and approve requisitions >= $50,000.
+Input: Procurement Tier Decision, RFP Scoring Matrix | Output: Executive Contract Approval
+Preconditions: Contract value >= $50,000 and minimum 3 vendor bids evaluated | Postconditions: Requisition marked APPROVED for PO creation
+Dependencies: ACT-203
+APPROVAL GATE [APR-201]: Approver: VP of Finance & Procurement Committee | Criteria: 3 competitive bids and positive ROI business case for spend >= $50,000 | SLA: 24 hours | Rejection Target: ACT-201.
+
+Step 5 [ACT-205] Generate and Dispatch Binding Purchase Order | Role: Coupa PO Dispatch Engine (Procurement Systems) | Type: automated
+Description: Issue binding Purchase Order PDF, commit encumbrance in ERP budget ledger, and transmit PO to supplier.
+Input: Executive Contract Approval, Draft Purchase Requisition | Output: Issued Purchase Order
+Preconditions: Requisition approved and vendor active | Postconditions: Purchase Order dispatched to vendor via EDI/email
+Dependencies: ACT-203, ACT-204
+
+Step 6 [ACT-206] Execute Vendor Compliance Quarantine and Disqualification | Role: Chief Compliance Officer (Risk & Compliance) | Type: escalation
+Description: Formally quarantine non-compliant vendor record and notify requester to select approved supplier.
+Input: Vendor Risk Assessment Score | Output: Vendor Disqualification Notice
+Preconditions: Critical compliance or sanctions violation detected | Postconditions: Requisition cancelled and vendor blocked
+Dependencies: ACT-202

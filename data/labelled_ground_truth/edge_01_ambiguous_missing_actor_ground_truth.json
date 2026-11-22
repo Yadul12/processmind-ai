@@ -1,0 +1,80 @@
+{
+  "case_id": "EDGE-001",
+  "title": "Ad-Hoc Corporate Expense Reimbursement Policy (Ambiguous Draft)",
+  "document_code": "SOP-EXP-EDGE1",
+  "category": "Edge Case - Ambiguous & Missing Actor",
+  "base_filename": "edge_01_ambiguous_missing_actor",
+  "primary_format": "txt",
+  "is_edge_case": true,
+  "expected_activities": [
+    {
+      "activity_id": "ACT-801",
+      "activity_name": "Upload Travel Receipt Scan",
+      "responsible_role": "Employee Submitter",
+      "department": "General Operations",
+      "activity_type": "manual",
+      "section": "Section 1.0 - Informal Expense Instructions",
+      "dependencies": []
+    },
+    {
+      "activity_id": "ACT-802",
+      "activity_name": "Verify Expense Receipt Completeness",
+      "responsible_role": "UNASSIGNED",
+      "department": "General Administration",
+      "activity_type": "manual",
+      "section": "Section 1.0 - Informal Expense Instructions",
+      "dependencies": [
+        "ACT-801"
+      ]
+    },
+    {
+      "activity_id": "ACT-803",
+      "activity_name": "Evaluate If Expense Amount Is Large",
+      "responsible_role": "UNASSIGNED",
+      "department": "General Administration",
+      "activity_type": "decision",
+      "section": "Section 1.0 - Informal Expense Instructions",
+      "dependencies": [
+        "ACT-802"
+      ]
+    },
+    {
+      "activity_id": "ACT-804",
+      "activity_name": "Reimburse Employee Bank Account",
+      "responsible_role": "Payroll Clerk",
+      "department": "Finance",
+      "activity_type": "manual",
+      "section": "Section 1.0 - Informal Expense Instructions",
+      "dependencies": [
+        "ACT-803"
+      ]
+    }
+  ],
+  "expected_actors": [
+    "Employee Submitter",
+    "Payroll Clerk"
+  ],
+  "expected_dependencies": [
+    {
+      "source": "ACT-801",
+      "target": "ACT-802"
+    },
+    {
+      "source": "ACT-802",
+      "target": "ACT-803"
+    },
+    {
+      "source": "ACT-803",
+      "target": "ACT-804"
+    }
+  ],
+  "expected_conditions": [
+    {
+      "condition_id": "COND-801",
+      "decision_activity_id": "ACT-803",
+      "rule_expression": "IF amount is large or unusual THEN route to ACT-804."
+    }
+  ],
+  "expected_approvals": [],
+  "expected_exceptions": []
+}

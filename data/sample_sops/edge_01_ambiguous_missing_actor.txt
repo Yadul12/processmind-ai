@@ -1,0 +1,29 @@
+=== Section 1.0 - Informal Expense Instructions (Page 1) ===
+DOCUMENT CODE: SOP-EXP-EDGE1 | DEPARTMENT: General Administration
+TITLE: Ad-Hoc Corporate Expense Reimbursement Policy (Ambiguous Draft)
+OWNER: Office Administrator | EFFECTIVE DATE: 2026-03-01
+
+Step 1 [ACT-801] Upload Travel Receipt Scan | Role: Employee Submitter (General Operations) | Type: manual
+Description: Upload meal or hotel receipt image into the shared expense folder.
+Input: Receipt Image | Output: Uploaded Receipt File
+Preconditions: Travel completed | Postconditions: File saved in folder
+Dependencies: None
+
+Step 2 [ACT-802] Verify Expense Receipt Completeness | Role: UNASSIGNED (General Administration) | Type: manual
+Description: The receipt should be checked if appropriate to make sure the numbers look reasonable, maybe by someone in the back office.
+Input: Uploaded Receipt File | Output: Checked Receipt Note
+Preconditions: Receipt uploaded | Postconditions: Someone looked at it
+Dependencies: ACT-801
+
+Step 3 [ACT-803] Evaluate If Expense Amount Is Large | Role: UNASSIGNED (General Administration) | Type: decision
+Description: If the amount seems fairly large or unusual, someone should probably approve it as needed before paying.
+Input: Checked Receipt Note | Output: Informal Decision
+Preconditions: Receipt checked | Postconditions: Routed somewhere
+Dependencies: ACT-802
+DECISION RULE [COND-801]: IF amount is large or unusual THEN route to ACT-804.
+
+Step 4 [ACT-804] Reimburse Employee Bank Account | Role: Payroll Clerk (Finance) | Type: manual
+Description: Send reimbursement transfer to the employee bank account whenever convenient.
+Input: Informal Decision | Output: Bank Transfer Confirmation
+Preconditions: Decision completed | Postconditions: Employee paid
+Dependencies: ACT-803

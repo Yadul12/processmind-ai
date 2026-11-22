@@ -1,0 +1,98 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 2631 >>
+stream
+BT
+/F1 10 Tf
+45 750 Td
+13 TL
+(=== Section 1.0 - Service Level Objectives ===) Tj T*
+(DOCUMENT CODE: SOP-CX-004 | DEPARTMENT: Customer Experience & Quality Assurance) Tj T*
+(TITLE: Tiered Customer Complaint Resolution and SLA Escalation SOP) Tj T*
+(OWNER: VP of Customer Success | EFFECTIVE DATE: 2026-02-10) Tj T*
+(1.0 Objective: Ensure structured intake, severity triage, root-cause investigation, goodwill credit approval, and regulatory escalation for enterprise customer complaints.) Tj T*
+() Tj T*
+(=== Section 2.0 - Intake, Triage, and Investigation ===) Tj T*
+(Step 1 [ACT-301] Log Customer Complaint and Acknowledge Receipt | Role: Customer Support Specialist \(Customer Experience\) | Type: manual) Tj T*
+(Description: Record customer complaint in Salesforce Service Cloud, attach evidence logs, and send automated 15-minute SLA acknowledgement.) Tj T*
+(Input: Customer Complaint Submission, Account Telemetry Logs | Output: Logged Case Ticket) Tj T*
+(Preconditions: Customer holds active service agreement | Postconditions: Case ID created and SLA timer started) Tj T*
+(Dependencies: None) Tj T*
+() Tj T*
+(Step 2 [ACT-302] Triage Complaint Severity and Regulatory Impact | Role: Quality Assurance Team Lead \(Quality Assurance\) | Type: decision) Tj T*
+(Description: Classify complaint into Severity-1 \(Regulatory/Data Privacy Breach\), Severity-2 \(Service Outage with SLA Credit\), or Severity-3 \(Standard Defect\).) Tj T*
+(Input: Logged Case Ticket | Output: Severity Triage Classification) Tj T*
+(Preconditions: Case ticket logged with initial facts | Postconditions: Severity tier assigned) Tj T*
+(Dependencies: ACT-301) Tj T*
+(DECISION RULE [COND-301]: IF credit_requested >= $1,000 THEN route to ACT-304 ELSE route to ACT-303.) Tj T*
+(EXCEPTION RULE [EXC-301]: IF complaint involves GDPR/HIPAA privacy breach OR regulatory threat THEN escalate to Data Privacy & Legal Response Team within 2 hours \(Target: ACT-306\). Remediation: Freeze affected tenant logs and initiate statutory incident response.) Tj T*
+() Tj T*
+(Step 3 [ACT-303] Execute Technical Root Cause Analysis and Service Remediation | Role: L3 Incident Resolution Engineer \(Engineering Operations\) | Type: manual) Tj T*
+(Description: Reproduce reported issue, deploy configuration hotfix or data correction, and document 5-Whys Root Cause Analysis.) Tj T*
+(Input: Severity Triage Classification, Account Telemetry Logs | Output: Root Cause & Remediation Report) Tj T*
+(Preconditions: Complaint triaged as technical/operational issue | Postconditions: Technical fix verified in customer environment) Tj T*
+(Dependencies: ACT-302) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 2044 >>
+stream
+BT
+/F1 10 Tf
+45 750 Td
+13 TL
+(=== Section 3.0 - Financial Credit Approval and Closure ===) Tj T*
+(Step 4 [ACT-304] Approve Customer SLA Service Credit or Refund | Role: Director of Customer Operations \(Customer Experience\) | Type: approval) Tj T*
+(Description: Review SLA downtime calculation and approve billing credit or refund >= $1,000.) Tj T*
+(Input: Root Cause & Remediation Report, SLA Credit Calculation | Output: Approved Credit Authorization) Tj T*
+(Preconditions: Customer claim >= $1,000 validated against contract SLA | Postconditions: Credit memo authorized for billing) Tj T*
+(Dependencies: ACT-302, ACT-303) Tj T*
+(APPROVAL GATE [APR-301]: Approver: Director of Customer Operations | Criteria: Verified SLA breach duration and contract penalty clause for credits >= $1,000 | SLA: 8 hours | Rejection Target: ACT-305.) Tj T*
+() Tj T*
+(Step 5 [ACT-305] Dispatch Final Resolution Report and Close Case | Role: Customer Success Manager \(Customer Experience\) | Type: notification) Tj T*
+(Description: Deliver formal RCA summary and credit confirmation to customer executive sponsor and mark ticket RESOLVED.) Tj T*
+(Input: Root Cause & Remediation Report, Approved Credit Authorization | Output: Customer Resolution Closure Notice) Tj T*
+(Preconditions: Technical remediation complete and credit decision finalized | Postconditions: Case closed and CSAT survey triggered) Tj T*
+(Dependencies: ACT-303, ACT-304) Tj T*
+() Tj T*
+(Step 6 [ACT-306] Manage Regulatory Compliance and Privacy Breach Escalation | Role: Data Privacy & Legal Response Team \(Legal & Compliance\) | Type: escalation) Tj T*
+(Description: Conduct forensic privacy assessment, draft regulatory notification if required, and coordinate legal communication.) Tj T*
+(Input: Logged Case Ticket, Severity Triage Classification | Output: Regulatory Incident Disposition) Tj T*
+(Preconditions: Severity-1 regulatory or privacy trigger identified | Postconditions: Legal hold and regulatory compliance protocol executed) Tj T*
+(Dependencies: ACT-302) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000191 00000 n 
+0000002874 00000 n 
+0000003000 00000 n 
+0000005096 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+5222
+%%EOF

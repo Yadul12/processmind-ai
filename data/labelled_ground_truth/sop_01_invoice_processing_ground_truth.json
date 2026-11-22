@@ -1,0 +1,129 @@
+{
+  "case_id": "SOP-001",
+  "title": "Enterprise Accounts Payable Invoice Processing SOP",
+  "document_code": "SOP-FIN-001",
+  "category": "Invoice Processing",
+  "base_filename": "sop_01_invoice_processing",
+  "primary_format": "pdf",
+  "is_edge_case": false,
+  "expected_activities": [
+    {
+      "activity_id": "ACT-001",
+      "activity_name": "Receive and Digitize Vendor Invoice",
+      "responsible_role": "AP Intake Specialist",
+      "department": "Finance & Accounts Payable",
+      "activity_type": "manual",
+      "section": "Section 2.0 - Process Activities and Execution Rules",
+      "dependencies": []
+    },
+    {
+      "activity_id": "ACT-002",
+      "activity_name": "Execute Automated OCR and Three-Way PO Match",
+      "responsible_role": "ERP Matching Engine",
+      "department": "Finance Systems",
+      "activity_type": "automated",
+      "section": "Section 2.0 - Process Activities and Execution Rules",
+      "dependencies": [
+        "ACT-001"
+      ]
+    },
+    {
+      "activity_id": "ACT-003",
+      "activity_name": "Evaluate Match Discrepancy and Variance Threshold",
+      "responsible_role": "AP Senior Analyst",
+      "department": "Finance & Accounts Payable",
+      "activity_type": "decision",
+      "section": "Section 2.0 - Process Activities and Execution Rules",
+      "dependencies": [
+        "ACT-002"
+      ]
+    },
+    {
+      "activity_id": "ACT-004",
+      "activity_name": "Approve High-Value Invoice Settlement",
+      "responsible_role": "Finance Controller",
+      "department": "Executive Finance",
+      "activity_type": "approval",
+      "section": "Section 3.0 - Approvals, Exception Handling, and Settlement",
+      "dependencies": [
+        "ACT-003"
+      ]
+    },
+    {
+      "activity_id": "ACT-005",
+      "activity_name": "Post General Ledger Entry and Schedule ACH Payment",
+      "responsible_role": "ERP Treasury Scheduler",
+      "department": "Finance Systems",
+      "activity_type": "automated",
+      "section": "Section 3.0 - Approvals, Exception Handling, and Settlement",
+      "dependencies": [
+        "ACT-003",
+        "ACT-004"
+      ]
+    },
+    {
+      "activity_id": "ACT-006",
+      "activity_name": "Resolve PO Discrepancy with Vendor and Procurement",
+      "responsible_role": "Procurement Dispute Specialist",
+      "department": "Procurement",
+      "activity_type": "escalation",
+      "section": "Section 3.0 - Approvals, Exception Handling, and Settlement",
+      "dependencies": [
+        "ACT-003"
+      ]
+    }
+  ],
+  "expected_actors": [
+    "AP Intake Specialist",
+    "AP Senior Analyst",
+    "ERP Matching Engine",
+    "ERP Treasury Scheduler",
+    "Finance Controller",
+    "Procurement Dispute Specialist"
+  ],
+  "expected_dependencies": [
+    {
+      "source": "ACT-001",
+      "target": "ACT-002"
+    },
+    {
+      "source": "ACT-002",
+      "target": "ACT-003"
+    },
+    {
+      "source": "ACT-003",
+      "target": "ACT-004"
+    },
+    {
+      "source": "ACT-003",
+      "target": "ACT-005"
+    },
+    {
+      "source": "ACT-004",
+      "target": "ACT-005"
+    },
+    {
+      "source": "ACT-003",
+      "target": "ACT-006"
+    }
+  ],
+  "expected_conditions": [
+    {
+      "condition_id": "COND-001",
+      "decision_activity_id": "ACT-003",
+      "rule_expression": "IF match_variance <= 2% AND invoice_amount >= $10,000 THEN route to ACT-004 ELSE IF match_variance <= 2% AND invoice_amount < $10,000 THEN route to ACT-005."
+    }
+  ],
+  "expected_approvals": [
+    {
+      "approval_id": "APR-001",
+      "activity_id": "ACT-004"
+    }
+  ],
+  "expected_exceptions": [
+    {
+      "exception_id": "EXC-001",
+      "source_activity_id": "ACT-003"
+    }
+  ]
+}

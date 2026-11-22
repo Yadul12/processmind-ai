@@ -1,0 +1,43 @@
+=== Section 1.0 - Multi-Branch Treasury Execution (Page 1) ===
+DOCUMENT CODE: SOP-TRS-EDGE3 | DEPARTMENT: Global Treasury
+TITLE: Global Treasury Multi-Tier Wire Transfer & FX Hedging SOP
+OWNER: Group Treasurer | EFFECTIVE DATE: 2026-03-10
+
+Step 1 [ACT-701] Initiate International Wire Request | Role: Treasury Analyst (Global Treasury) | Type: manual
+Description: Enter beneficiary SWIFT BIC, currency pair, and wire amount in Treasury Management System.
+Input: Approved Settlement Instruction | Output: Wire Transfer Ticket
+Preconditions: Beneficiary IBAN verified | Postconditions: Wire ticket created
+Dependencies: None
+
+Step 2 [ACT-702] Evaluate Currency Exposure and FX Hedge Requirement | Role: FX Desk Manager (Global Treasury) | Type: decision
+Description: Check if wire is cross-currency (non-USD) requiring forward FX contract execution.
+Input: Wire Transfer Ticket | Output: Currency Routing Signal
+Preconditions: Wire ticket created | Postconditions: Routed to FX spot/forward execution or direct liquidity check
+Dependencies: ACT-701
+DECISION RULE [COND-701]: IF currency != 'USD' THEN route to ACT-703 ELSE route to ACT-704.
+
+Step 3 [ACT-703] Execute Spot or Forward FX Conversion | Role: FX Trading Desk Bot (Treasury Systems) | Type: automated
+Description: Lock real-time FX conversion rate via institutional liquidity provider.
+Input: Currency Routing Signal | Output: FX Trade Confirmation
+Preconditions: Non-USD wire confirmed | Postconditions: Settlement amount locked
+Dependencies: ACT-702
+
+Step 4 [ACT-704] Evaluate Wire Notional Tier for Dual Treasury Sign-Off | Role: Treasury Operations Lead (Global Treasury) | Type: decision
+Description: Determine whether USD-equivalent notional value exceeds $250,000 board threshold.
+Input: Wire Transfer Ticket, FX Trade Confirmation | Output: Authorization Tier Signal
+Preconditions: Currency conversion finalized | Postconditions: Routed to CFO dual sign-off or automated SWIFT release
+Dependencies: ACT-702, ACT-703
+DECISION RULE [COND-702]: IF notional_usd >= $250,000 THEN route to ACT-705 ELSE route to ACT-706.
+
+Step 5 [ACT-705] Approve High-Value Institutional Wire Release | Role: Chief Financial Officer (Executive Finance) | Type: approval
+Description: Hardware-token sign-off for treasury wires >= $250,000.
+Input: Authorization Tier Signal | Output: Hardware Token Signature
+Preconditions: Wire value >= $250,000 | Postconditions: Dual signature recorded on SWIFT message
+Dependencies: ACT-704
+APPROVAL GATE [APR-701]: Approver: Chief Financial Officer | Criteria: Liquidity reserve check and dual token verification for wires >= $250,000 | SLA: 4 hours | Rejection Target: ACT-701.
+
+Step 6 [ACT-706] Transmit SWIFT MT103 Payment and Reconcile Nostro Account | Role: SWIFT Gateway Service (Treasury Systems) | Type: automated
+Description: Broadcast SWIFT MT103 message and reconcile settlement confirmation against Nostro account statement.
+Input: Wire Transfer Ticket, Hardware Token Signature | Output: SWIFT UETR Settlement Receipt
+Preconditions: All required approvals and FX locks complete | Postconditions: Wire settled and ledger reconciled
+Dependencies: ACT-704, ACT-705
